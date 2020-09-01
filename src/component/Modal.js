@@ -22,7 +22,7 @@ import Moment from 'moment';
 import 'moment/locale/id'  // without this line it didn't work
 Moment.locale('id');
 
-
+const URL = 'http://36.89.246.26:4442'
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography
 
@@ -50,7 +50,7 @@ function Invmodal() {
     }
 
     async function modalLog() {
-        await axios.get('http://localhost:3000/log_modal')
+        await axios.get(URL+'/log_modal')
             .then(res => {
                 // if (res.data.status === 200) {
                 //     let key = 1
@@ -76,7 +76,7 @@ function Invmodal() {
     }
 
     function simpan() {
-        axios.post('http://localhost:3000/add_invest', {
+        axios.post(URL+'/add_invest', {
             invest: modal,
             keterangan: keterangan
         })
@@ -194,17 +194,7 @@ function Invmodal() {
                     </Button>,
                 ]}
             >
-                <Descriptions size="small" column={3}>
-                    <Descriptions.Item label="Total Investasi">Lili Qu</Descriptions.Item>
-                    <Descriptions.Item label="Association">
-                        <a>421421</a>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Creation Time">2017-01-10</Descriptions.Item>
-                    <Descriptions.Item label="Keseluruhan Keuntungan">2017-10-10</Descriptions.Item>
-                    <Descriptions.Item label="Remarks">
-                        Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
-                 </Descriptions.Item>
-                </Descriptions>
+               
             </PageHeader>
             <Divider />
             <div style={{ padding: 20 }}>

@@ -17,6 +17,7 @@ import 'antd/dist/antd.css';
 import Barcode from 'react-barcode'
 import NumberFormat from 'react-number-format';
 
+const URL = 'http://36.89.246.26:4442'
 const { Text } = Typography
 const { Option } = Select;
 const { Header, Sider, Content } = Layout;
@@ -41,7 +42,7 @@ function Barang() {
     }, [])
 
     function listkategori() {
-        axios.get('http://localhost:3000/list_kategori')
+        axios.get(URL+'/list_kategori')
             .then(res => {
                 if (res.data.status === 200) {
                     setKategorilist(res.data.data)
@@ -60,7 +61,7 @@ function Barang() {
     }
 
     function simpan() {
-        axios.post('http://localhost:3000/create_item', {
+        axios.post(URL+'/create_item', {
             id_kategori: '#',
             nama_item: nama_item,
             jumlah_item: jumlah_item,
@@ -165,7 +166,7 @@ function Barang() {
     ];
 
     async function list_item() {
-        await axios.get('http://localhost:3000/list_item')
+        await axios.get(URL+'/list_item')
             .then(res => {
                 // if (res.data.status === 200) {
                 //     let key = 1

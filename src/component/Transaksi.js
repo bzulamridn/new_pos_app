@@ -28,7 +28,7 @@ const options = [
     { value: 'Wall Street' },
 ];
 
-
+const URL = 'http://36.89.246.26:4442'
 const { Header, Sider, Content } = Layout;
 const { TabPane } = Tabs;
 
@@ -68,7 +68,7 @@ function Transaksi() {
     }
 
     async function list_item() {
-        await axios.get('http://localhost:3000/list_item_fortx')
+        await axios.get(URL+'/list_item_fortx')
             .then(res => {
                 if (res.data.status === 200) {
                     setNamaitem(res.data.data)
@@ -101,11 +101,12 @@ function Transaksi() {
                 let nama_item = namaitem[val].nama_item
                 let harga_jual = namaitem[val].harga_jual
                 let harga_modal = namaitem[val].harga_modal
+                let stok = namaitem[val].jumlah_item
                 let total = namaitem[val].harga_jual * jumlahitem
                 setGrandtotal(grandtotal + total)
                 show(0)
                 setJumlahitem(1)
-                setNamaitemkeranjang([...namaitemkeranjang, { id_item, nama_item, harga_modal, harga_jual, jumlahitem, total }])
+                setNamaitemkeranjang([...namaitemkeranjang, { id_item, nama_item, harga_modal, harga_jual, stok, jumlahitem, total }])
             } else {
                 console.log("Updated")
                 namaitemkeranjang[indexKeranjang].jumlahitem = namaitemkeranjang[indexKeranjang].jumlahitem + jumlahitem
@@ -121,19 +122,24 @@ function Transaksi() {
             let nama_item = await namaitem[val].nama_item
             let harga_jual = await namaitem[val].harga_jual
             let harga_modal = await namaitem[val].harga_modal
+            let stok = namaitem[val].jumlah_item
             let total = await namaitem[val].harga_jual * jumlahitem
             show(0)
             setJumlahitem(1)
             setGrandtotal(grandtotal + total)
-            setNamaitemkeranjang([...namaitemkeranjang, { id_item, nama_item, harga_modal ,harga_jual, jumlahitem, total }])
+            setNamaitemkeranjang([...namaitemkeranjang, { id_item, nama_item, harga_modal ,harga_jual, stok, jumlahitem, total }])
         }
     }
 
-    function deleteItem(iditem) {
+    async function deleteItem(iditem,totalitem) {
         console.log(iditem)
-        namaitemkeranjang.filter((item) => item.id_item != iditem)
+        const item = await namaitemkeranjang.filter((item) => item.id_item != iditem)
+        await setNamaitemkeranjang(item)
         //let hapus = delete namaitemkeranjang[indextodelete]
-        console.log("Terhapus")
+       // const grandtotalx = await namaitemkeranjang.reduce((a, {total}) => a+total, 0);
+        //console.log(totalitem)
+        setGrandtotal(parseInt(grandtotal)-parseInt(totalitem))
+        
         setHapus('Terhapus')
     }
 
@@ -171,7 +177,7 @@ function Transaksi() {
     }
 
     function simpanTrx(){
-        axios.post('http://localhost:3000/create_trx',{
+        axios.post(URL+'/create_trx',{
             transaksi: namaitemkeranjang
         })
         .then(res => {
@@ -204,9 +210,9 @@ function Transaksi() {
         >
             <PageHeader
                 className="site-page-header"
-                title="Transaksi"
+                title="Gradtotal"
                 //breadcrumb={{ routes }}
-                subTitle="Transaksi Page Content Here"
+                subTitle=""
                 extra={[
                     <h1 style={{ fontSize: 50 }}><NumberFormat thousandSeparator={true} displayType={'text'} value={grandtotal} /></h1>
                 ]}
@@ -238,17 +244,17 @@ function Transaksi() {
                             )}
                         />
                         <Row>
-                            <Col span={8}>
-                                <Button type="danger" style={{ height:60 }} icon={<DeleteOutlined />} block>
-                                    Hapus / Clear Trx
+                            <Col span={12}>
+                                <Button type="primary" ghost onClick={()=>substrindex()} style={{ height:60 }} icon={<DeleteOutlined />} block>
+                                    Keranjang
                             </Button>
                             </Col>
-                            <Col span={8}>
+                            {/* <Col span={8}>
                                 <Button type="primary" ghost style={{  height:60 }} onClick={()=> hapusTrx()} icon={<SaveOutlined />} block>
                                     Hold Trx
                                 </Button>
-                            </Col>
-                            <Col span={8}>
+                            </Col> */}
+                            <Col span={12}>
                                 <Button style={{  height:60 }} type="primary" onClick={() => simpanTrx()} icon={<DollarCircleOutlined />} block>
                                     Bayar / Simpan
                                 </Button>
@@ -260,6 +266,7 @@ function Transaksi() {
                                 <tr>
                                     <th><center>No</center></th>
                                     <th>Nama Item</th>
+                                    <th>Stok</th>
                                     <th>Harga Jual</th>
                                     <th><center>Jumlah</center></th>
                                     <th>Total</th>
@@ -271,14 +278,18 @@ function Transaksi() {
                                     <tr key={index}>
                                         <td><center>{index + 1}</center></td>
                                         <td>{item.nama_item}</td>
+                                        <td>{item.stok}</td>
                                         <td><NumberFormat thousandSeparator={true} displayType={'text'} value={item.harga_jual} /></td>
-                                        <td><center><Button type="danger" shape="circle" onClick={() => addDelQtt(item.id_item, 0)} size="small" icon={<MinusOutlined />} ></Button><span style={{ margin: 10 }} >{item.jumlahitem}</span><Button type="primary" onClick={() => addDelQtt(item.id_item, 1)} shape="circle" size="small" icon={<PlusOutlined />} ></Button></center></td>
+                                        <td><center><Button type="danger" shape="circle" onClick={() => addDelQtt(item.id_item, 0)} size="small" icon={<MinusOutlined />} disabled={item.jumlahitem === 0 && true }></Button><span style={{ margin: 10 }} >{item.jumlahitem}</span><Button type="primary" onClick={() => addDelQtt(item.id_item, 1)} shape="circle" size="small" icon={<PlusOutlined />} disabled={item.jumlahitem === parseInt(item.stok) && true }></Button></center></td>
                                         <td><NumberFormat thousandSeparator={true} displayType={'text'} value={item.total} /></td>
-                                        <td><center><Button type="danger" size="small" onClick={() => deleteItem(item.id_item)} icon={<DeleteOutlined />} ></Button></center></td>
+                                        <td><center><Button type="danger" size="small" onClick={() => deleteItem(item.id_item, item.total)} icon={<DeleteOutlined />} ></Button></center></td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
+                        <Button type="danger" onClick={()=> hapusTrx()}  style={{ height:40 }} icon={<DeleteOutlined />} block>
+                                    Kosongkan List Item
+                            </Button>
                     </Card>
                 </Col>
             </Row>

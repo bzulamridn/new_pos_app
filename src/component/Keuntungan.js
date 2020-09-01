@@ -16,6 +16,7 @@ import NumberFormat from 'react-number-format';
 import 'moment/locale/id'  // without this line it didn't work
 Moment.locale('id');
 
+const URL = 'http://36.89.246.26:4442'
 const { Text } = Typography
 const { Header, Sider, Content } = Layout;
 
@@ -36,7 +37,7 @@ function Keuntungan() {
     }, [])
 
     async function logKeuntungan() {
-        await axios.get('http://localhost:3000/log_keuntungan')
+        await axios.get(URL+'/log_keuntungan')
             .then(res => {
                 // if (res.data.status === 200) {
                 console.log(res.data)
@@ -47,7 +48,7 @@ function Keuntungan() {
                     data.push({
                         no: i + 1,
                         trx: res.data.data.data[i].id_trx,
-                        laba: res.data.data.data[i].laba,
+                        laba: res.data.data.data[i].total,
                         tanggal: res.data.data.data[i].created_at
                     })
 

@@ -36,11 +36,11 @@ export default function Master(props) {
                 }}>
                 <div className="logo" />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                    <Menu.Item key="1" onClick={() => browserHistory.push('/')}>
+                    <Menu.Item key="1" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/`)}> 
                         <HomeOutlined />
                         <span>Beranda</span>
                     </Menu.Item>
-                    <Menu.Item key="2" onClick={() => browserHistory.push('/transaksi')}>
+                    <Menu.Item key="2" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/transaksi`)}>
                         <ShoppingCartOutlined />
                         <span>Transaksi</span>
                     </Menu.Item>
@@ -53,15 +53,15 @@ export default function Master(props) {
                             </span>
                         }
                     >
-                        <Menu.Item key="5" onClick={() => browserHistory.push('/kategoriitem')}>
+                        <Menu.Item key="5" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/kategoriitem`)}>
                             <span>Kategori Item</span>
                         </Menu.Item>
-                        <Menu.Item key="6" onClick={() => browserHistory.push('/barang')}>
+                        <Menu.Item key="6" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/barang`)}>
                             <span>Inventori Item</span>
                         </Menu.Item>
-                        <Menu.Item key="7" onClick={() => browserHistory.push('/barang')}>
+                        {/* <Menu.Item key="7" onClick={() => browserHistory.push('/barang')}>
                             <span>Pesan Item</span>
-                        </Menu.Item>
+                        </Menu.Item> */}
                     </SubMenu>
                     <SubMenu
                         key="8"
@@ -72,21 +72,21 @@ export default function Master(props) {
                             </span>
                         }
                     >
-                        <Menu.Item key="9" onClick={() => browserHistory.push('/modal')}>
+                        <Menu.Item key="9" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/modal`)}>
                             <span>Modal </span>
                         </Menu.Item>
-                        <Menu.Item key="12" onClick={() => browserHistory.push('/keuntungan')}>
+                        <Menu.Item key="12" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/keuntungan`)}>
                             <span>Laba/ Untung </span>
                         </Menu.Item>
-                        <Menu.Item key="13" onClick={() => browserHistory.push('/pengeluaran')}>
+                        <Menu.Item key="13" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/pengeluaran`)}>
                             <span>Pengeluaran</span>
                         </Menu.Item>
-                        <Menu.Item key="14" onClick={() => browserHistory.push('/penarikan')}>
+                        <Menu.Item key="14" onClick={() => browserHistory.push(`${process.env.PUBLIC_URL}/penarikan`)}>
                             <span>Penarikan</span>
                         </Menu.Item>
-                        <Menu.Item key="9" onClick={() => browserHistory.push('/modal')}>
+                        {/* <Menu.Item key="9" onClick={() => browserHistory.push('/modal')}>
                             <span>Saving (Cooming Soon) </span>
-                        </Menu.Item>
+                        </Menu.Item> */}
                     </SubMenu>
                     {/* <Menu.Item key="12" onClick={() => browserHistory.push('/paket')}>
                         <CodeSandboxOutlined />

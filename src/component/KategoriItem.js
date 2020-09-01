@@ -11,7 +11,7 @@ import axios from 'axios';
 
 const { Header, Sider, Content } = Layout;
 
-
+const URL = 'http://36.89.246.26:4442'
 
 function KategoriItem() {
     const [showmodal, setShowmodal] = useState(false)
@@ -57,7 +57,7 @@ function KategoriItem() {
 
     function simpan() {
         setSaveloading(true)
-        axios.post('http://localhost:3000/create_kategori', {
+        axios.post(URL+'/create_kategori', {
             nama_kategori: namakategori
         })
             .then(res => {
@@ -74,7 +74,7 @@ function KategoriItem() {
     }
 
     function listkategori() {
-        axios.get('http://localhost:3000/list_kategori')
+        axios.get(URL+'/list_kategori')
             .then(res => {
                 if (res.data.status === 200) {
                     setKategorilist(res.data.data)
@@ -84,7 +84,7 @@ function KategoriItem() {
 
 
     function hapus(id) {
-        axios.get('http://localhost:3000/hapus_kategori/' + id)
+        axios.get(URL+'/hapus_kategori/' + id)
             .then(res => {
                 if (res.data.status === 'success') {
                     setMessage('error')
